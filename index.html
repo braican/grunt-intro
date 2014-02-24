@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intro to Grunt</title>
+</head>
+<body>
+
+<div id="content">
+    <ul>
+        <li>You need node</li>
+        <li>You install Grunt on a per-project basis</li>
+    </ul>
+
+    <ul>
+    
+        <li>Navigate to your project and create a file <code>package.json</code></li>
+        <li>
+            Add some setup code to this file:
+            <pre><code>
+                {
+                  "name": "example-project",
+                  "version": "0.1.0",
+                  "devDependencies": {
+                    "grunt": "~0.4.1"
+                  }
+                }
+            </code></pre>
+        </li>
+        <li>Navigate to your project directory in a terminal, if you haven't already done so.</li>
+        <li>Install the dependencies in the local node_modules folder by running the command <code>npm install</code></li>
+        <li>Magic will happen and a new folder will appear in your directory called <code>node_modules</code></li>
+        <li>Now install Grunt in the project with the command <code>npm install -g grunt-cli</code> (you may need to do this with <code>sudo</code>)</li>
+        <li>
+            Install modules:
+            <pre><code>npm install grunt-contrib-watch --save-dev</code></pre>
+            <pre><code>npm install grunt-contrib-sass --save-dev</code></pre>
+        </li>
+        <li>
+            Create a Gruntfile. It's a javascript file named <code>Gruntfile.js</code>. Put the following into it:
+            <pre><code>
+                module.exports = function(grunt) {
+
+                    // 1. All configuration goes here 
+                    grunt.initConfig({
+                        pkg: grunt.file.readJSON('package.json'),
+
+                        sass: {
+                            dist: {
+                                options: {
+                                    style: 'compressed'
+                                },
+                                files: {
+                                    'css/build/main.css': 'css/main.scss'
+                                }
+                            } 
+                        },
+
+                        watch: {
+                            css: {
+                                files: ['css/*.scss'],
+                                tasks: ['sass'],
+                                options: {
+                                    spawn: false,
+                                }
+                            }
+                        }
+
+                    });
+
+                    // 3. Where we tell Grunt we plan to use this plug-in.
+                    grunt.loadNpmTasks('grunt-contrib-watch');
+                    grunt.loadNpmTasks('grunt-contrib-sass');
+
+                    // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
+                    grunt.registerTask('default', ['watch', 'sass']);
+
+                };
+            </code></pre>
+        </li>
+            
+        
+    </ul>
+</div>
+
+</body>
+</html>
